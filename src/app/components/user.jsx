@@ -22,7 +22,7 @@ const User = (props) => {
         <td>{props.rate} /5</td>
         <td className="text-center">
           <span type="button" onClick={() => props.onToggleBookmark(props._id)}>
-            <Bookmark key={props._id} status={props.bookmark} />
+            <Bookmark status={props.bookmark} />
           </span>
         </td>
         <td className="text-center">
