@@ -11,9 +11,10 @@ const User = (props) => {
           {props.qualities.map((quality) => (
             <Quality
               key={quality._id}
-              color={quality.color}
-              name={quality.name}
-              _id={quality._id}
+              // color={quality.color}
+              // name={quality.name}
+              // _id={quality._id}
+              {...quality}
             />
           ))}
         </td>
