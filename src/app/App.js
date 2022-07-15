@@ -17,8 +17,8 @@ const App = () => {
       ? (users[index].bookmark = false)
       : (users[index].bookmark = true);
 
-    const newStatus = [...users];
-    setUsers(newStatus);
+    const newArrOfUsers = [...users];
+    setUsers(newArrOfUsers);
   };
 
   return (
