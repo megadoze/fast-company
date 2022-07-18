@@ -4,32 +4,32 @@ import SearchStatus from "./components/searchStatus";
 import api from "./api";
 
 const App = () => {
-  const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState(api.users.fetchAll());
 
-  const handleDelete = (id) => {
-    const newArrOfUsers = users.filter((user) => user._id !== id);
-    setUsers(newArrOfUsers);
-  };
-  const handleToggleBookmark = (id) => {
-    const index = users.findIndex((name) => name._id === id);
-    let statusOfBookmark = users[index].bookmark;
-    statusOfBookmark === true
-      ? (users[index].bookmark = false)
-      : (users[index].bookmark = true);
+    const handleDelete = (id) => {
+        const newArrOfUsers = users.filter((user) => user._id !== id);
+        setUsers(newArrOfUsers);
+    };
+    const handleToggleBookmark = (id) => {
+        const index = users.findIndex((name) => name._id === id);
+        const statusOfBookmark = users[index].bookmark;
+        statusOfBookmark === true
+            ? (users[index].bookmark = false)
+            : (users[index].bookmark = true);
 
-    const newArrOfUsers = [...users];
-    setUsers(newArrOfUsers);
-  };
+        const newArrOfUsers = [...users];
+        setUsers(newArrOfUsers);
+    };
 
-  return (
-    <>
-      <SearchStatus length={users.length} />
-      <Users
-        users={users}
-        onDelete={handleDelete}
-        onToggleBookmark={handleToggleBookmark}
-      ></Users>
-    </>
-  );
+    return (
+        <>
+            <SearchStatus length={users.length} />
+            <Users
+                users={users}
+                onDelete={handleDelete}
+                onToggleBookmark={handleToggleBookmark}
+            ></Users>
+        </>
+    );
 };
 export default App;
