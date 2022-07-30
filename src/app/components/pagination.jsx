@@ -8,7 +8,7 @@ const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
     const pages = _.range(1, pageCount + 1);
     return (
         <nav>
-            <ul className="pagination">
+            <ul className="pagination justify-content-center">
                 {pages.map((page) => (
                     <li
                         className={

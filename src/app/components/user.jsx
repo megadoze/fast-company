@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const User = (props) => {
     return (
         <>
-            <tr key={props.id}>
+            <tr key={props._id}>
                 <td>{props.name}</td>
                 <td>
                     {props.qualities.map((quality) => (
@@ -19,7 +19,7 @@ const User = (props) => {
                         />
                     ))}
                 </td>
-                <td>{props.name}</td>
+                <td>{props.profession.name}</td>
                 <td>{props.completedMeetings}</td>
                 <td>{props.rate} /5</td>
                 <td className="text-center">
@@ -44,14 +44,14 @@ const User = (props) => {
     );
 };
 User.propTypes = {
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     qualities: PropTypes.array.isRequired,
+    profession: PropTypes.object.isRequired,
     completedMeetings: PropTypes.number.isRequired,
     rate: PropTypes.number.isRequired,
     bookmark: PropTypes.bool.isRequired,
     onToggleBookmark: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    _id: PropTypes.string.isRequired
+    onDelete: PropTypes.func.isRequired
 };
 export default User;
