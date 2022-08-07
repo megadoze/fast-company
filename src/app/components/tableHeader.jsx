@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
+    console.log(selectedSort);
     const handleSort = (item) => {
         if (selectedSort.iter === item) {
             onSort({
@@ -28,8 +29,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         style={{ width: "300px" }}
                     >
                         {columns[column].name}
-
-                        {selectedSort.iter === columns[column].iter &&
+                        {selectedSort.iter &&
+                            selectedSort.iter === columns[column].iter &&
                             (selectedSort.order === "asc" ? (
                                 <i className="bi bi-caret-up-fill"></i>
                             ) : (
