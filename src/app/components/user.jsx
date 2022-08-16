@@ -3,38 +3,39 @@ import Quality from "./qualitie";
 import Bookmark from "./bookmark";
 import PropTypes from "prop-types";
 
-const User = (props) => {
+const User = ({
+    _id,
+    name,
+    qualities,
+    profession,
+    completedMeetings,
+    rate,
+    bookmark,
+    onToggleBookmark,
+    onDelete
+}) => {
     return (
         <>
-            <tr key={props._id}>
-                <td>{props.name}</td>
+            <tr key={_id}>
+                <td>{name}</td>
                 <td>
-                    {props.qualities.map((quality) => (
-                        <Quality
-                            key={quality._id}
-                            // color={quality.color}
-                            // name={quality.name}
-                            // _id={quality._id}
-                            {...quality}
-                        />
+                    {qualities.map((quality) => (
+                        <Quality key={quality._id} {...quality} />
                     ))}
                 </td>
-                <td>{props.profession.name}</td>
-                <td>{props.completedMeetings}</td>
-                <td>{props.rate} /5</td>
+                <td>{profession.name}</td>
+                <td>{completedMeetings}</td>
+                <td>{rate} /5</td>
                 <td className="text-center">
-                    <span
-                        type="button"
-                        onClick={() => props.onToggleBookmark(props._id)}
-                    >
-                        <Bookmark status={props.bookmark} />
+                    <span type="button" onClick={() => onToggleBookmark(_id)}>
+                        <Bookmark status={bookmark} />
                     </span>
                 </td>
                 <td className="text-center">
                     <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={() => props.onDelete(props._id)}
+                        onClick={() => onDelete(_id)}
                     >
                         delete
                     </button>

@@ -1,39 +1,24 @@
-import React, { useState, useEffect } from "react";
-import Users from "./components/users";
-import app from "./api";
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import NavBar from "./components/navBar";
+import Main from "./components/main";
+import NotFound from "./components/not-found";
+import Login from "./components/login";
+// import Users from "./components/users";
+import UsersLayout from "./components/usersLayout ";
 
-const App = () => {
-    const [users, setUsers] = useState();
-
-    useEffect(() => {
-        app.users.fetchAll().then((data) => setUsers(data));
-    }, []);
-
-    const handleDelete = (id) => {
-        const newArrOfUsers = users.filter((user) => user._id !== id);
-        setUsers(newArrOfUsers);
-    };
-    const handleToggleBookmark = (id) => {
-        const index = users.findIndex((name) => name._id === id);
-        const statusOfBookmark = users[index].bookmark;
-        statusOfBookmark === true
-            ? (users[index].bookmark = false)
-            : (users[index].bookmark = true);
-
-        const newArrOfUsers = [...users];
-        setUsers(newArrOfUsers);
-    };
-
+function App() {
     return (
-        <>
-            {users && (
-                <Users
-                    users={users}
-                    onDelete={handleDelete}
-                    onToggleBookmark={handleToggleBookmark}
-                ></Users>
-            )}
-        </>
+        <div>
+            <NavBar />
+            <Switch>
+                <Route path="/" exact component={Main} />
+                <Route path="/login" component={Login} />
+                <Route path="/users/:userId?" component={UsersLayout} />
+                <Route path="/404" component={NotFound} />
+                <Redirect to="/404" />
+            </Switch>
+        </div>
     );
-};
+}
 export default App;
