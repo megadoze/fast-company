@@ -24,6 +24,7 @@ const Users = () => {
     const handleChange = ({ target }) => {
         console.log(target.value);
         setSelectedProf();
+        setCurrentPage(1);
         setInputSearch((prevState) => ({
             ...prevState,
             [target.name]: target.value
