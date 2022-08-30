@@ -24,7 +24,6 @@ const Users = () => {
     const handleChange = ({ target }) => {
         console.log(target.value);
         setSelectedProf();
-        setCurrentPage(1);
         setInputSearch((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -52,7 +51,7 @@ const Users = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, inputSearch]);
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
@@ -75,7 +74,9 @@ const Users = () => {
               )
             : inputSearch
             ? users.filter((user) =>
-                  user.name.toLowerCase().includes(inputSearch.search)
+                  user.name
+                      .toLowerCase()
+                      .includes(inputSearch.search.toLowerCase())
               )
             : users;
 

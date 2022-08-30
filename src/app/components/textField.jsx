@@ -20,6 +20,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
                     value={value}
                     onChange={onChange}
                     className={getInputClasses()}
+                    required
                 />
                 {type === "password" && (
                     <button
