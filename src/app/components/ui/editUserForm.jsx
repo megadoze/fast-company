@@ -21,13 +21,9 @@ const EditUserForm = ({ userId }) => {
 
     const [professions, setProfession] = useState([]);
     const [qualities, setQualities] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        // setIsLoading(true);
         api.users.getById(userId).then(({ profession, qualities, ...data }) => {
-            console.log(qualities);
-            console.log(profession._id, profession.name);
             setData((prevState) => ({
                 ...prevState,
                 ...data,
@@ -40,18 +36,27 @@ const EditUserForm = ({ userId }) => {
         });
     }, []);
 
-    if (data) {
-        console.log(data);
-        // console.log(data.profession);
-    }
-
     const getProfessionById = (id) => {
         for (const prof of professions) {
             if (prof.label === id) {
-                // console.log({ _id: prof.value, name: prof.label });
                 return { _id: prof.value, name: prof.label };
             }
         }
+    };
+    const getQualities = (elements) => {
+        const qualitiesArray = [];
+        for (const elem of elements) {
+            for (const quality in qualities) {
+                if (elem.value === qualities[quality].value) {
+                    qualitiesArray.push({
+                        _id: qualities[quality].value,
+                        name: qualities[quality].label,
+                        color: qualities[quality].color
+                    });
+                }
+            }
+        }
+        return qualitiesArray;
     };
 
     useEffect(() => {
@@ -72,24 +77,7 @@ const EditUserForm = ({ userId }) => {
         });
     }, []);
 
-    const getQualities = (elements) => {
-        const qualitiesArray = [];
-        for (const elem of elements) {
-            for (const quality in qualities) {
-                if (elem.value === qualities[quality].value) {
-                    qualitiesArray.push({
-                        _id: qualities[quality].value,
-                        name: qualities[quality].label,
-                        color: qualities[quality].color
-                    });
-                }
-            }
-        }
-        return qualitiesArray;
-    };
-
     const handleChange = (target) => {
-        console.log(target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -98,8 +86,6 @@ const EditUserForm = ({ userId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const isValid = validate();
-        // if (!isValid) return;
         const { profession, qualities } = data;
         api.users
             .update(userId, {
