@@ -11,13 +11,48 @@ import PropTypes from "prop-types";
 const EditUserForm = ({ userId }) => {
     const history = useHistory();
 
-    const [user, setUser] = useState();
+    const [data, setData] = useState({
+        name: "",
+        email: "",
+        sex: "male",
+        profession: "",
+        qualities: []
+    });
+
+    const [professions, setProfession] = useState([]);
+    const [qualities, setQualities] = useState([]);
+    // const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
+        // setIsLoading(true);
+        api.users.getById(userId).then(({ profession, qualities, ...data }) => {
+            console.log(qualities);
+            console.log(profession._id, profession.name);
+            setData((prevState) => ({
+                ...prevState,
+                ...data,
+                profession: profession.name,
+                qualities: qualities.map((qual) => ({
+                    value: qual._id,
+                    label: qual.name
+                }))
+            }));
+        });
     }, []);
 
-    const [qualities, setQualities] = useState([]);
-    const [professions, setProfession] = useState([]);
+    if (data) {
+        console.log(data);
+        // console.log(data.profession);
+    }
+
+    const getProfessionById = (id) => {
+        for (const prof of professions) {
+            if (prof.label === id) {
+                // console.log({ _id: prof.value, name: prof.label });
+                return { _id: prof.value, name: prof.label };
+            }
+        }
+    };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
@@ -36,18 +71,7 @@ const EditUserForm = ({ userId }) => {
             setQualities(qualitiesList);
         });
     }, []);
-    if (professions) {
-        console.log(professions);
-    }
 
-    const getProfessionById = (id) => {
-        for (const prof of professions) {
-            if (prof.label === id) {
-                console.log({ _id: prof.value, name: prof.label });
-                return { _id: prof.value, name: prof.label };
-            }
-        }
-    };
     const getQualities = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
@@ -66,7 +90,7 @@ const EditUserForm = ({ userId }) => {
 
     const handleChange = (target) => {
         console.log(target);
-        setUser((prevState) => ({
+        setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
@@ -76,36 +100,38 @@ const EditUserForm = ({ userId }) => {
         e.preventDefault();
         // const isValid = validate();
         // if (!isValid) return;
-        const { profession, qualities } = user;
+        const { profession, qualities } = data;
         api.users
             .update(userId, {
-                ...user,
+                ...data,
                 profession: getProfessionById(profession),
                 qualities: getQualities(qualities)
             })
-            .then((data) => setUser(data));
+            .then((data) => {
+                setData(data);
+            });
         history.push(`/users/${userId}`);
         console.log("Передаем", {
-            ...user,
+            ...data,
             profession: getProfessionById(profession),
             qualities: getQualities(qualities)
         });
     };
     return (
         <>
-            {user ? (
+            {data._id ? (
                 <form onSubmit={handleSubmit}>
                     <TextField
                         label="Имя"
                         name="name"
-                        value={user.name}
+                        value={data.name}
                         onChange={handleChange}
                         // error={errors.email}
                     />
                     <TextField
                         label="Email"
                         name="email"
-                        value={user.email}
+                        value={data.email}
                         onChange={handleChange}
                         // error={errors.email}
                     />
@@ -115,7 +141,7 @@ const EditUserForm = ({ userId }) => {
                         defaultOption="Choose..."
                         name="profession"
                         onChange={handleChange}
-                        value={user.profession.name}
+                        value={data.profession}
                         // error={errors.profession}
                     />
                     <RadioField
@@ -124,7 +150,7 @@ const EditUserForm = ({ userId }) => {
                             { name: "Male", value: "male" },
                             { name: "Female", value: "female" }
                         ]}
-                        value={user.sex}
+                        value={data.sex}
                         name="sex"
                         onChange={handleChange}
                     />
@@ -132,7 +158,7 @@ const EditUserForm = ({ userId }) => {
                         label="Выберите качества"
                         options={qualities}
                         onChange={handleChange}
-                        defaultValue={user.qualities}
+                        defaultValue={data.qualities}
                         name="qualities"
                     />
                     <button
