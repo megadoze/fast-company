@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import api from "../api";
-import { paginate } from "../utils/paginate";
+import Pagination from "../../common/pagination";
+import api from "../../../api";
+import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UsersTable from "./usersTable";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 
-const Users = () => {
+const UsersListPage = () => {
     const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "acs" });
-    const [inputSearch, setInputSearch] = useState({ search: "" });
+    const [inputSearch, setInputSearch] = useState("");
 
     const [users, setUsers] = useState();
     useEffect(() => {
@@ -22,12 +22,9 @@ const Users = () => {
     }, []);
 
     const handleChange = ({ target }) => {
-        console.log(target.value);
         setSelectedProf();
-        setInputSearch((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
+        setInputSearch(target.value);
+        // console.log(target.value);
     };
 
     const handleDelete = (id) => {
@@ -55,7 +52,7 @@ const Users = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
-        setInputSearch({ search: "" });
+        setInputSearch("");
     };
 
     const handlePageChange = (pageIndex) => {
@@ -74,9 +71,7 @@ const Users = () => {
               )
             : inputSearch
             ? users.filter((user) =>
-                  user.name
-                      .toLowerCase()
-                      .includes(inputSearch.search.toLowerCase())
+                  user.name.toLowerCase().includes(inputSearch.toLowerCase())
               )
             : users;
 
@@ -114,10 +109,10 @@ const Users = () => {
                     <div className="input-group">
                         <input
                             type="text"
-                            name="search"
+                            name="inputSearch"
                             className="form-control"
                             placeholder="Search..."
-                            value={inputSearch.search}
+                            value={inputSearch}
                             onChange={handleChange}
                         />
                     </div>
@@ -144,7 +139,7 @@ const Users = () => {
     }
     return "loading...";
 };
-Users.propTypes = {
+UsersListPage.propTypes = {
     users: PropTypes.array
 };
-export default Users;
+export default UsersListPage;
