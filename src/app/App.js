@@ -18,6 +18,7 @@ function App() {
                 <Route path="/" exact component={Main} />
                 <Route path="/404" component={NotFound} />
                 <Redirect to="/404" />
+                <Route component={NotFound} />
             </Switch>
         </div>
     );

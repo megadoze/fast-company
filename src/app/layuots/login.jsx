@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LoginForm from "../components/ui/loginForm";
 import RegisterForm from "../components/ui/registerForm";
 
@@ -9,6 +9,7 @@ const Login = () => {
     const [formType, setFormType] = useState(
         type === "register" ? type : "login"
     );
+    console.log(type);
 
     const toggleFormType = (params) => {
         setFormType((prevState) =>
@@ -26,13 +27,14 @@ const Login = () => {
                             <RegisterForm />
                             <p>
                                 Already have account?
-                                <a
+                                <Link
                                     className="ms-2"
                                     role="button"
                                     onClick={toggleFormType}
+                                    to={`/login`}
                                 >
                                     Sign In
-                                </a>
+                                </Link>
                             </p>
                         </>
                     ) : (
@@ -41,13 +43,14 @@ const Login = () => {
                             <LoginForm />
                             <p>
                                 Dont have account?
-                                <a
+                                <Link
                                     className="ms-2"
                                     role="button"
                                     onClick={toggleFormType}
+                                    to={`/login/register`}
                                 >
                                     Sign Up
-                                </a>
+                                </Link>
                             </p>
                         </>
                     )}
