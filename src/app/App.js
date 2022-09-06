@@ -5,14 +5,14 @@ import Main from "./layuots/main";
 import NotFound from "./layuots/not-found";
 import Login from "./layuots/login";
 import Users from "./layuots/users";
-import EditPage from "./components/page/editPage/editPage";
+import EditUserForm from "./components/page/editPage/editUserForm";
 
 function App() {
     return (
         <div>
             <NavBar />
             <Switch>
-                <Route path="/users/:userId?/edit" component={EditPage} />
+                <Route path="/users/:userId?/edit" component={EditUserForm} />
                 <Route path="/users/:userId?" component={Users} />
                 <Route path="/login/:type?" component={Login} />
                 <Route path="/" exact component={Main} />
