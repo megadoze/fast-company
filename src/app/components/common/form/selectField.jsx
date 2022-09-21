@@ -20,6 +20,7 @@ const SelectField = ({
         !Array.isArray(options) && typeof options === "object"
             ? Object.values(options)
             : options;
+
     return (
         <div className="mb-4">
             <label htmlFor={name} className="form-label">
@@ -37,7 +38,9 @@ const SelectField = ({
                 </option>
                 {optionsArray.length > 0 &&
                     optionsArray.map((option) => (
-                        <option key={option.value}>{option.label}</option>
+                        <option key={option.value}>
+                            {option.label}
+                        </option>
                     ))}
             </select>
             {error && <div className="invalid-feedback">{error}</div>}

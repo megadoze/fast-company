@@ -12,6 +12,8 @@ const EditUserForm = () => {
     const params = useParams();
     const { userId } = params;
 
+    // console.log(history.location);
+
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -79,7 +81,12 @@ const EditUserForm = () => {
         });
     }, []);
 
+    const handleReturn = () => {
+        history.goBack();
+    };
+
     const handleChange = (target) => {
+        console.log(target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -113,6 +120,7 @@ const EditUserForm = () => {
     const isValid = Object.keys(errors).length === 0;
 
     const handleSubmit = (e) => {
+        console.log(data);
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -136,6 +144,13 @@ const EditUserForm = () => {
     return (
         <>
             <div className="container mt-5 mb-5">
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={handleReturn}
+                >
+                    Назад
+                </button>
                 <div className="row">
                     <div className="col-md-6 offset-md-3 shadow p-4">
                         <h3 className="mb-4">Edit Page</h3>
