@@ -1,7 +1,7 @@
 import { orderBy } from "lodash";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
 import api from "../../api";
+import { useParams } from "react-router-dom";
 import AddCommentForm from "./addCommentForm";
 import UserCommentsList from "./userCommentsList";
 

@@ -10,9 +10,21 @@ const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState(initialData);
     const [users, setUsers] = useState({});
 
+    const handleChange = (target) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+    };
+
     useEffect(() => {
         api.users.fetchAll().then(setUsers);
     }, []);
+
+    const clearForm = () => {
+        setData(initialData);
+        // setErrors({});
+    };
 
     const arrayOfUsers =
         users &&
@@ -21,22 +33,10 @@ const AddCommentForm = ({ onSubmit }) => {
             label: users[data].name
         }));
 
-    const clearForm = () => {
-        setData(initialData);
-        // setErrors({});
-    };
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(data);
         clearForm();
-        console.log(data);
     };
 
     return (
@@ -58,11 +58,7 @@ const AddCommentForm = ({ onSubmit }) => {
                             value={data.content}
                             onChange={handleChange}
                         />
-                        <button
-                            type="submit"
-                            // disabled={!isValid}
-                            className="btn btn-primary float-end"
-                        >
+                        <button className="btn btn-primary float-end">
                             Опубликовать
                         </button>
                     </form>

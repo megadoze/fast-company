@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../api";
+import API from "../../api";
 import UserAvatar from "./userAvatar";
 import { displayDate } from "../../utils/displayDate";
 import PropTypes from "prop-types";
@@ -13,15 +13,13 @@ const UserComment = ({
 }) => {
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
     useEffect(() => {
         setIsLoading(true);
-        api.users.getById(userId).then((data) => {
+        API.users.getById(userId).then((data) => {
             setUser(data);
             setIsLoading(false);
         });
     }, []);
-
     return (
         <div className="bg-light card-body mb-3">
             <div className="row">
@@ -35,7 +33,7 @@ const UserComment = ({
                                 <div className="mb-4">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <p className="mb-1 ">
-                                            {user && user.name}{" "}
+                                            {user ? user.name : "loading"}{" "}
                                             <span className="small">
                                                 - {displayDate(created)}
                                             </span>
