@@ -12,8 +12,6 @@ const EditUserForm = () => {
     const params = useParams();
     const { userId } = params;
 
-    // console.log(history.location);
-
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -31,7 +29,7 @@ const EditUserForm = () => {
             setData((prevState) => ({
                 ...prevState,
                 ...data,
-                profession: profession.name,
+                profession: profession._id,
                 qualities: qualities.map((qual) => ({
                     value: qual._id,
                     label: qual.name
@@ -42,7 +40,7 @@ const EditUserForm = () => {
 
     const getProfessionById = (id) => {
         for (const prof of professions) {
-            if (prof.label === id) {
+            if (prof.value === id) {
                 return { _id: prof.value, name: prof.label };
             }
         }
@@ -86,7 +84,6 @@ const EditUserForm = () => {
     };
 
     const handleChange = (target) => {
-        console.log(target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -120,7 +117,6 @@ const EditUserForm = () => {
     const isValid = Object.keys(errors).length === 0;
 
     const handleSubmit = (e) => {
-        console.log(data);
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
