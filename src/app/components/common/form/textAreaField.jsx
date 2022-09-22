@@ -4,36 +4,37 @@ import PropTypes from "prop-types";
 const TextAreaField = ({ label, name, value, onChange, error }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
-        // console.log(target.value);
     };
-    // const getInputClasses = () => {
-    //     return "form-control" + (error ? " is-invalid" : " is-valid");
-    // };
+    const getInputClasses = () => {
+        return "form-control" + (error ? " is-invalid" : "");
+    };
+
     return (
         <div className="mb-4">
-            <label htmlFor="floatingTextarea2" className="form-label">
-                {label}
-            </label>
-            <textarea
-                name={name}
-                className="form-control"
-                id={name}
-                rows="3"
-                onChange={handleChange}
-                value={value}
-                required
-            >
-                {/* {error && <div className="invalid-feedback ">{error}</div>} */}
-            </textarea>
+            <label htmlFor={name}> {label}</label>
+            <div className="input-group has-validation">
+                <textarea
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                    className={getInputClasses()}
+                />
+
+                {error && <div className="invalid-feedback ">{error}</div>}
+            </div>
         </div>
     );
 };
-
+TextAreaField.defaultProps = {
+    type: "text"
+};
 TextAreaField.propTypes = {
     label: PropTypes.string,
+    type: PropTypes.string,
+    name: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
-    name: PropTypes.string,
     error: PropTypes.string
 };
 
