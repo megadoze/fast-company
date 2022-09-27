@@ -5,21 +5,33 @@ import Main from "./layuots/main";
 import NotFound from "./layuots/not-found";
 import Login from "./layuots/login";
 import Users from "./layuots/users";
-import EditUserForm from "./components/page/editPage/editUserForm";
+import EditUserPage from "./components/page/editPage/editUserPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ProfessionProvider } from "./hooks/useProfessions";
+import { QualityProvider } from "./hooks/useQualities";
 
 function App() {
     return (
         <div>
             <NavBar />
-            <Switch>
-                <Route path="/users/:userId?/edit" component={EditUserForm} />
-                <Route path="/users/:userId?" component={Users} />
-                <Route path="/login/:type?" component={Login} />
-                <Route path="/" exact component={Main} />
-                <Route path="/404" component={NotFound} />
-                <Redirect to="/404" />
-                <Route component={NotFound} />
-            </Switch>
+            <QualityProvider>
+                <ProfessionProvider>
+                    <Switch>
+                        <Route
+                            path="/users/:userId?/edit"
+                            component={EditUserPage}
+                        />
+                        <Route path="/users/:userId?" component={Users} />
+                        <Route path="/login/:type?" component={Login} />
+                        <Route path="/" exact component={Main} />
+                        <Route path="/404" component={NotFound} />
+                        <Redirect to="/404" />
+                        <Route component={NotFound} />
+                    </Switch>
+                </ProfessionProvider>
+            </QualityProvider>
+            <ToastContainer />
         </div>
     );
 }

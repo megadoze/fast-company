@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../common/pagination";
-import api from "../../../api";
+// import api from "../../../api";
 import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
+import { useUser } from "../../../hooks/useUsers";
+import { useProfessions } from "../../../hooks/useProfessions";
 
 const UsersListPage = () => {
     const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfession] = useState();
+    // const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "acs" });
     const [inputSearch, setInputSearch] = useState("");
+    // const [ users, setUsers] = useState([]);
 
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
-
-    const handleChange = ({ target }) => {
-        setSelectedProf();
-        setInputSearch(target.value);
-        // console.log(target.value);
-    };
+    const { users } = useUser();
+    const { professions } = useProfessions();
 
     const handleDelete = (id) => {
         const newArrOfUsers = users.filter((user) => user._id !== id);
-        setUsers(newArrOfUsers);
+        // setUsers(newArrOfUsers);
+        console.log(newArrOfUsers);
     };
+
+    const handleChange = ({ target }) => {
+        // console.log(target);
+        setSelectedProf();
+        setInputSearch(target.value);
+    };
+
     const handleToggleBookmark = (id) => {
         const index = users.findIndex((name) => name._id === id);
         const statusOfBookmark = users[index].bookmark;
@@ -39,12 +42,13 @@ const UsersListPage = () => {
             : (users[index].bookmark = true);
 
         const newArrOfUsers = [...users];
-        setUsers(newArrOfUsers);
+        // setUsers(newArrOfUsers);
+        console.log(newArrOfUsers);
     };
 
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfession(data));
-    }, []);
+    // useEffect(() => {
+    //     api.professions.fetchAll().then((data) => setProfession(data));
+    // }, []);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -52,6 +56,7 @@ const UsersListPage = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        console.log(item);
         setInputSearch("");
     };
 

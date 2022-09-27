@@ -7,7 +7,7 @@ import api from "../../../api";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 
-const EditUserForm = () => {
+const EditUserPage = () => {
     const history = useHistory();
     const params = useParams();
     const { userId } = params;
@@ -209,4 +209,4 @@ const EditUserForm = () => {
     );
 };
 
-export default EditUserForm;
+export default EditUserPage;
