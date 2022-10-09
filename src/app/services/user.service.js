@@ -13,13 +13,6 @@ const userService = {
             payload
         );
         return data;
-    },
-    find: async (payload) => {
-        const { data } = await httpService.get(
-            userEndpoint + payload._id,
-            payload
-        );
-        return data;
     }
 };
 export default userService;
