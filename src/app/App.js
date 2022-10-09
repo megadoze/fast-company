@@ -10,27 +10,30 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProfessionProvider } from "./hooks/useProfessions";
 import { QualityProvider } from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
 
 function App() {
     return (
         <div>
-            <NavBar />
-            <QualityProvider>
-                <ProfessionProvider>
-                    <Switch>
-                        <Route
-                            path="/users/:userId?/edit"
-                            component={EditUserPage}
-                        />
-                        <Route path="/users/:userId?" component={Users} />
-                        <Route path="/login/:type?" component={Login} />
-                        <Route path="/" exact component={Main} />
-                        <Route path="/404" component={NotFound} />
-                        <Redirect to="/404" />
-                        <Route component={NotFound} />
-                    </Switch>
-                </ProfessionProvider>
-            </QualityProvider>
+            <AuthProvider>
+                <NavBar />
+                <QualityProvider>
+                    <ProfessionProvider>
+                        <Switch>
+                            <Route
+                                path="/users/:userId?/edit"
+                                component={EditUserPage}
+                            />
+                            <Route path="/users/:userId?" component={Users} />
+                            <Route path="/login/:type?" component={Login} />
+                            <Route path="/" exact component={Main} />
+                            <Route path="/404" component={NotFound} />
+                            <Redirect to="/404" />
+                            <Route component={NotFound} />
+                        </Switch>
+                    </ProfessionProvider>
+                </QualityProvider>
+            </AuthProvider>
             <ToastContainer />
         </div>
     );

@@ -35,7 +35,7 @@ const UsersListPage = () => {
     };
 
     const handleToggleBookmark = (id) => {
-        const index = users.findIndex((name) => name._id === id);
+        const index = users.findIndex((user) => user._id === id);
         const statusOfBookmark = users[index].bookmark;
         statusOfBookmark === true
             ? (users[index].bookmark = false)

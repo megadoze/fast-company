@@ -18,7 +18,10 @@ const SelectField = ({
     };
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
-            ? Object.values(options)
+            ? Object.keys(options).map((optionName) => ({
+                  name: options[optionName].name,
+                  value: options[optionName]._id
+              }))
             : options;
 
     return (
@@ -58,4 +61,4 @@ SelectField.propTypes = {
     name: PropTypes.string
 };
 
-export default SelectField;
+export default React.memo(SelectField);

@@ -4,12 +4,12 @@ import LoginForm from "../components/ui/loginForm";
 import RegisterForm from "../components/ui/registerForm";
 
 const Login = () => {
-    const { type } = useParams();
+    const { type = "login" } = useParams();
+    console.log(type);
 
     const [formType, setFormType] = useState(
         type === "register" ? type : "login"
     );
-    console.log(type);
 
     const toggleFormType = (params) => {
         setFormType((prevState) =>
