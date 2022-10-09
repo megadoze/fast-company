@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
             errorCatcher(error);
         }
     }
-    async function signIn({ email, password, ...rest }) {
+    async function signIn({ email, password }) {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
             const { data } = await httpAuth.post(url, {
