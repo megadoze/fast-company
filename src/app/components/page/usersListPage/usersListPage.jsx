@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../common/pagination";
-// import api from "../../../api";
 import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
@@ -9,18 +8,19 @@ import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import { useUser } from "../../../hooks/useUsers";
 import { useProfessions } from "../../../hooks/useProfessions";
+import { useAuth } from "../../../hooks/useAuth";
 
 const UsersListPage = () => {
     const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
-    // const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "acs" });
     const [inputSearch, setInputSearch] = useState("");
+    const { currentUser } = useAuth();
     // const [ users, setUsers] = useState([]);
 
     const { users } = useUser();
-    const { professions } = useProfessions();
+    const { professions, isLoading: professionsLoading } = useProfessions();
 
     const handleDelete = (id) => {
         const newArrOfUsers = users.filter((user) => user._id !== id);
@@ -68,18 +68,23 @@ const UsersListPage = () => {
     };
 
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : inputSearch
-            ? users.filter((user) =>
-                  user.name.toLowerCase().includes(inputSearch.toLowerCase())
-              )
-            : users;
-
+        function filterUsers(data) {
+            const filteredUsers = selectedProf
+                ? data.filter(
+                      (user) =>
+                          JSON.stringify(user.profession) ===
+                          JSON.stringify(selectedProf)
+                  )
+                : inputSearch
+                ? data.filter((user) =>
+                      user.name
+                          .toLowerCase()
+                          .includes(inputSearch.toLowerCase())
+                  )
+                : data;
+            return filteredUsers.filter((u) => u._id !== currentUser._id);
+        }
+        const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
@@ -94,7 +99,7 @@ const UsersListPage = () => {
 
         return (
             <div className="d-flex">
-                {professions && (
+                {professions && !professionsLoading && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
                             selectedItem={selectedProf}

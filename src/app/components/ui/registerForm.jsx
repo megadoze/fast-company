@@ -18,6 +18,7 @@ const RegisterForm = () => {
         password: "",
         profession: "",
         sex: "male",
+        name: "",
         qualities: [],
         licence: false
     });
@@ -72,6 +73,15 @@ const RegisterForm = () => {
             },
             isEmail: {
                 message: "Email введен некорректно"
+            }
+        },
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения"
+            },
+            min: {
+                message: "Имя должно состоять минимум из 3 символов",
+                value: 3
             }
         },
         password: {
@@ -155,14 +165,21 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <TextField
-                label="Email"
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+            />
+            <TextField
+                label="Электронная почта"
                 name="email"
                 value={data.email}
                 onChange={handleChange}
                 error={errors.email}
             />
             <TextField
-                label="Password"
+                label="Пароль"
                 type="password"
                 name="password"
                 value={data.password}

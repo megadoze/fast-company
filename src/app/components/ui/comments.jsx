@@ -1,30 +1,24 @@
 import { orderBy } from "lodash";
-import React, { useState, useEffect } from "react";
-import api from "../../api";
-import { useParams } from "react-router-dom";
+import React from "react";
+// import api from "../../api";
 import UserCommentsList, { AddCommentForm } from "../common/comments/index";
+import { useComments } from "../../hooks/useComments";
 
 const Comments = () => {
-    const { userId } = useParams();
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-        api.comments
-            .fetchCommentsForUser(userId)
-            .then((data) => setComments(data));
-    }, []);
+    const { createComment, comments, removeComment } = useComments();
 
     const handleSubmit = (data) => {
-        api.comments
-            .add({ ...data, pageId: userId })
-            .then((data) => setComments([...comments, data]));
+        createComment(data);
+        // api.comments
+        //     .add({ ...data, pageId: userId })
+        //     .then((data) => setComments([...comments, data]));
     };
 
     const handleDelete = (id) => {
-        api.comments.remove(id).then((data) => setComments(data));
-        api.comments
-            .fetchCommentsForUser(userId)
-            .then((data) => setComments(data));
+        removeComment(id);
+        // api.comments.remove(id).then((id) => {
+        //     setComments(comments.filter((x) => x._id !== id));
+        // });
     };
 
     const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
