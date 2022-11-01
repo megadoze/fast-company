@@ -7,8 +7,12 @@ import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import { useUser } from "../../../hooks/useUsers";
-import { useProfessions } from "../../../hooks/useProfessions";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../store/professions";
 
 const UsersListPage = () => {
     const pageSize = 6;
@@ -20,7 +24,9 @@ const UsersListPage = () => {
     // const [ users, setUsers] = useState([]);
 
     const { users } = useUser();
-    const { professions, isLoading: professionsLoading } = useProfessions();
+
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
 
     const handleDelete = (id) => {
         const newArrOfUsers = users.filter((user) => user._id !== id);

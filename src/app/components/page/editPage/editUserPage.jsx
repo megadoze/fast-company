@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import { validator } from "../../../utils/validator";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
-import { useQualities } from "../../../hooks/useQualities";
-import { useProfessions } from "../../../hooks/useProfessions";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getQualities,
+    getQualitiesLoadingStatus
+} from "../../../store/qualities";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../store/professions";
 
 const EditUserPage = () => {
     const history = useHistory();
-    const params = useParams();
-    const { userId } = params;
+    // const params = useParams();
+    // const { userId } = params;
     const [isLoading, setIsLoading] = useState(true);
     const { currentUser, updateUser } = useAuth();
-    const { qualities, isLoading: qualitiesLoading } = useQualities();
-    const { professions, isLoading: professionLoading } = useProfessions();
     const [data, setData] = useState();
-
     const [errors, setErrors] = useState({});
+
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
+
+    const professions = useSelector(getProfessions());
+    const professionLoading = useSelector(getProfessionsLoadingStatus());
 
     function transformQualities(qualitiesIds) {
         const qualitiesArray = [];
@@ -115,12 +125,11 @@ const EditUserPage = () => {
         };
         try {
             await updateUser(newData);
-            history.replace(`/users/${userId}`);
+            history.replace(`/users/${currentUser._id}`);
         } catch (error) {
             setErrors(error);
         }
     };
-
     return (
         <>
             <div className="container mt-5 mb-5">
