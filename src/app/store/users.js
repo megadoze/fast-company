@@ -35,7 +35,7 @@ const usersSlice = createSlice({
             state.dataLoaded = true;
             state.isLoading = false;
         },
-        usersRequestFiled: (state, action) => {
+        usersRequestFailed: (state, action) => {
             state.error = action.payload;
             state.isLoading = false;
         },
@@ -59,7 +59,9 @@ const usersSlice = createSlice({
             state.dataLoaded = false;
         },
         userUpdated: (state, action) => {
-            state.entities = action.payload;
+            state.entities[
+                state.entities.findIndex((u) => u._id === action.payload._id)
+            ] = action.payload;
         }
     }
 });
@@ -67,7 +69,7 @@ const { reducer: usersReducer, actions } = usersSlice;
 const {
     usersRequested,
     usersReceved,
-    usersRequestFiled,
+    usersRequestFailed,
     authRequestSuccess,
     authRequestFailed,
     userCreated,
@@ -79,7 +81,7 @@ const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/userCreateRequested");
 const createUserFailed = createAction("users/createUserFailed");
 const userUpdateRequested = createAction("users/userUpdateRequested");
-const updateUserFailed = createAction("users/updateUserFailed");
+const userUpdateFailed = createAction("users/userUpdateFailed");
 
 export const login =
     ({ payload, redirect }) =>
@@ -133,10 +135,10 @@ export const updateUser = (payload) => async (dispatch) => {
     dispatch(userUpdateRequested());
     try {
         const { content } = await userService.update(payload);
-        console.log("content", content);
         dispatch(userUpdated(content));
+        history.replace(`/users/${content._id}`);
     } catch (error) {
-        dispatch(updateUserFailed(error.message));
+        dispatch(userUpdateFailed(error.message));
     }
 };
 
@@ -159,7 +161,7 @@ export const loadUsersList = () => async (dispatch, getState) => {
         const { content } = await userService.get();
         dispatch(usersReceved(content));
     } catch (error) {
-        dispatch(usersRequestFiled(error.message));
+        dispatch(usersRequestFailed(error.message));
     }
 };
 export const getCurrentUserData = () => (state) => {

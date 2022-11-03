@@ -127,7 +127,6 @@ const EditUserPage = () => {
         };
         console.log("NewData", newData);
         dispatch(updateUser(newData));
-        history.replace(`/users/${currentUser._id}`);
     };
     return (
         <>
