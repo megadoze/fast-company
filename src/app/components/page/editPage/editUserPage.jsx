@@ -125,7 +125,6 @@ const EditUserPage = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-        console.log("NewData", newData);
         dispatch(updateUser(newData));
     };
     return (

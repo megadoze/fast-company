@@ -2,7 +2,7 @@ import React from "react";
 import UserCard from "../../ui/userCard";
 import Comments from "../../ui/comments";
 import PropTypes from "prop-types";
-import { CommentsProvider } from "../../../hooks/useComments";
+// import { CommentsProvider } from "../../../hooks/useComments";
 import { useSelector } from "react-redux";
 import {
     getCurrentUserData,
@@ -27,9 +27,9 @@ const UserPage = ({ userId }) => {
                         )}
                     </div>
                     <div className="col-md-8">
-                        <CommentsProvider>
-                            <Comments />
-                        </CommentsProvider>
+                        {/* <CommentsProvider> */}
+                        <Comments />
+                        {/* </CommentsProvider> */}
                     </div>
                 </div>
             </div>
